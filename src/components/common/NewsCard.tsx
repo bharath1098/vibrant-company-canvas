@@ -9,11 +9,16 @@ interface NewsCardProps {
   image: string;
   category: string;
   link: string;
+  onClick?: () => void; // Adding the onClick prop as optional
 }
 
-const NewsCard = ({ title, excerpt, date, image, category, link }: NewsCardProps) => {
+const NewsCard = ({ title, excerpt, date, image, category, link, onClick }: NewsCardProps) => {
   return (
-    <div className="overflow-hidden rounded-xl shadow-md bg-white group animate-on-scroll">
+    <div 
+      className="overflow-hidden rounded-xl shadow-md bg-white group animate-on-scroll"
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       {/* Image */}
       <div className="h-48 overflow-hidden relative">
         <img 
@@ -39,6 +44,7 @@ const NewsCard = ({ title, excerpt, date, image, category, link }: NewsCardProps
         <Link 
           to={link} 
           className="inline-block text-secondary hover:underline font-medium"
+          onClick={(e) => onClick && e.preventDefault()}
         >
           Read More
         </Link>
