@@ -173,11 +173,14 @@ const Careers = () => {
   
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section with blurred background */}
       <HeroSection
         title="Join Our Team"
         subtitle="Build your career with us and be part of creating innovative solutions that make a difference"
         backgroundImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3"
+        overlayOpacity="bg-black/60"
+        blurAmount="backdrop-blur-md"
+        type="page"
       />
 
       {/* Why Join Us Section */}

@@ -20,6 +20,7 @@ interface HeroSectionProps {
   competencies?: CompetencyCard[];
   children?: React.ReactNode;
   overlayOpacity?: string;
+  blurAmount?: string; // New prop for background blur amount
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ 
@@ -31,7 +32,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   videoSrc,
   competencies,
   children,
-  overlayOpacity = 'bg-black/50'
+  overlayOpacity = 'bg-black/50',
+  blurAmount = 'backdrop-blur-sm' // Default blur amount
 }) => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
@@ -108,6 +110,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Overlay for background image or video */}
       <div className={`absolute inset-0 ${overlayOpacity} ${type === 'home' ? 'bg-gradient-to-r from-black/70 to-black/50' : ''}`}></div>
       
+      {/* Blur effect for non-home pages */}
+      {type !== 'home' && backgroundImage && (
+        <div className={`absolute inset-0 ${blurAmount}`}></div>
+      )}
+      
       <div className="container-custom relative z-20 py-20">
         {type === 'home' && competencies ? (
           <motion.div 
@@ -173,7 +180,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </motion.div>
         ) : (
-          <div className="max-w-3xl mx-auto text-center">
+          <motion.div 
+            className="max-w-3xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${
               hasGradient && !backgroundImage ? 'hero-text-gradient' : 'text-white'
             }`}>
@@ -185,7 +197,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </p>
             )}
             {children}
-          </div>
+          </motion.div>
         )}
       </div>
     </section>
