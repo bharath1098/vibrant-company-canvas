@@ -15,24 +15,28 @@ const Home = () => {
     {
       title: "Technology Innovation",
       description: "Cutting-edge solutions with the latest technologies",
+      expandedDescription: "We leverage emerging technologies like AI, blockchain, and IoT to create innovative solutions that drive business growth and efficiency. Our approach is always forward-thinking and results-oriented.",
       icon: <Globe className="h-8 w-8 text-white" />,
       videoClip: "https://static.videezy.com/system/resources/previews/000/037/299/original/34_17_13.mp4"
     },
     {
       title: "Digital Transformation",
       description: "Modernize and optimize your business operations",
+      expandedDescription: "Transform your business with our comprehensive digital strategies. We help organizations navigate their digital journey, from legacy system modernization to implementing cutting-edge digital platforms.",
       icon: <Code className="h-8 w-8 text-white" />,
       videoClip: "https://static.videezy.com/system/resources/previews/000/041/162/original/22.mp4"
     },
     {
       title: "Business Solutions",
       description: "Tailored solutions for specific business challenges",
+      expandedDescription: "Our custom business solutions address your unique challenges with precision. From operational efficiency to customer experience enhancement, we deliver measurable outcomes that impact your bottom line.",
       icon: <BarChart3 className="h-8 w-8 text-white" />,
       videoClip: "https://static.videezy.com/system/resources/previews/000/041/100/original/8.mp4"
     },
     {
       title: "Workforce Solutions",
       description: "Enhance team productivity and efficiency",
+      expandedDescription: "Build a more productive, engaged workforce with our comprehensive HR and team collaboration tools. Our solutions enhance communication, streamline processes, and foster innovation across your organization.",
       icon: <Users className="h-8 w-8 text-white" />,
       videoClip: "https://static.videezy.com/system/resources/previews/000/037/561/original/18_03_11.mp4"
     }

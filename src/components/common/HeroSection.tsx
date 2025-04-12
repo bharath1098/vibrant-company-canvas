@@ -7,6 +7,7 @@ export interface CompetencyCard {
   description?: string;
   icon?: React.ReactNode;
   videoClip?: string;
+  expandedDescription?: string; // New field for expanded description
 }
 
 interface HeroSectionProps {
@@ -33,6 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   overlayOpacity = 'bg-black/50'
 }) => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
 
   // Animation variants for framer-motion
   const containerVariants = {
@@ -50,6 +52,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+  };
+
+  const cardVariants = {
+    initial: { scale: 1 },
+    hover: { 
+      scale: 1.05, 
+      zIndex: 30,
+      transition: { duration: 0.2 }
+    }
   };
 
   return (
@@ -125,14 +136,33 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="relative overflow-hidden rounded-xl backdrop-blur-sm bg-white/10 border border-white/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 group"
-                  onMouseEnter={() => competency.videoClip && setActiveVideo(competency.videoClip)}
-                  onMouseLeave={() => setActiveVideo(null)}
+                  initial="initial"
+                  whileHover="hover"
+                  animate={hoveredCardIndex === index ? "hover" : "initial"}
+                  variants={cardVariants}
+                  className="relative overflow-hidden rounded-xl backdrop-blur-sm bg-white/10 border border-white/20 p-6 shadow-lg transition-all duration-300 group"
+                  onMouseEnter={() => {
+                    competency.videoClip && setActiveVideo(competency.videoClip);
+                    setHoveredCardIndex(index);
+                  }}
+                  onMouseLeave={() => {
+                    setActiveVideo(null);
+                    setHoveredCardIndex(null);
+                  }}
                 >
                   <div className="relative z-10">
                     <h3 className="text-2xl font-bold text-white mb-2">{competency.title}</h3>
                     {competency.description && (
-                      <p className="text-white/80">{competency.description}</p>
+                      <p className="text-white/80 mb-2">{competency.description}</p>
+                    )}
+                    
+                    {/* Expanded description - shown only on hover */}
+                    {competency.expandedDescription && (
+                      <div className={`overflow-hidden transition-all duration-300 ${
+                        hoveredCardIndex === index ? 'max-h-48 opacity-100 mt-2' : 'max-h-0 opacity-0'
+                      }`}>
+                        <p className="text-white/90 text-sm">{competency.expandedDescription}</p>
+                      </div>
                     )}
                   </div>
                   <div className="absolute bottom-0 right-0 w-16 h-16 bg-primary/30 rounded-tl-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
