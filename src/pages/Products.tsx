@@ -1,454 +1,349 @@
 
-import { ArrowRight, Check, BarChart3, Users, Globe, Shield, Zap, Lightbulb } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, Zap, ArrowRight, ChevronRight, BarChart3, Users, Shield, Gauge } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import HeroSection from '../components/common/HeroSection';
 import SectionHeader from '../components/common/SectionHeader';
-import FeatureCard from '../components/common/FeatureCard';
-import { useState } from 'react';
+import ProductCard from '../components/common/ProductCard';
 
 const Products = () => {
-  const [activeTab, setActiveTab] = useState('upskila');
-  
+  // Main products
+  const mainProducts = [
+    {
+      title: "Upskila Learning Management System",
+      description: "A comprehensive learning platform to develop talent within your organization through customized training programs and analytics.",
+      image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3",
+      link: "/products/upskila",
+      features: [
+        "Customizable learning paths",
+        "Progress tracking and analytics",
+        "Integrated assessment tools",
+        "Mobile-friendly interface"
+      ]
+    },
+    {
+      title: "Bablon Collaboration Tool",
+      description: "A unified workspace for team collaboration, project management, and communication that enhances productivity.",
+      image: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3",
+      link: "/products/bablon",
+      features: [
+        "Real-time collaboration",
+        "Project management tools",
+        "Integrated messaging",
+        "File sharing and storage"
+      ]
+    },
+    {
+      title: "DataViz Analytics Platform",
+      description: "Transform your data into actionable insights with powerful visualization tools and AI-powered analytics.",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3",
+      link: "/products/dataviz",
+      features: [
+        "Interactive dashboards",
+        "AI-powered insights",
+        "Data integration capabilities",
+        "Custom reporting tools"
+      ]
+    }
+  ];
+
+  // Solutions by industry
+  const industrySolutions = [
+    {
+      industry: "Healthcare",
+      description: "Streamline patient care and operations with our specialized healthcare technology solutions.",
+      solutions: ["Electronic Health Records", "Telehealth Platforms", "Healthcare Analytics"]
+    },
+    {
+      industry: "Finance",
+      description: "Enhance security, compliance, and customer experience in financial services.",
+      solutions: ["Secure Payment Processing", "Regulatory Compliance Tools", "Customer Analytics"]
+    },
+    {
+      industry: "Manufacturing",
+      description: "Optimize production processes and supply chain management with smart technologies.",
+      solutions: ["IoT Production Monitoring", "Supply Chain Optimization", "Quality Control Systems"]
+    },
+    {
+      industry: "Education",
+      description: "Transform learning experiences and educational administration with digital tools.",
+      solutions: ["Virtual Classrooms", "Student Information Systems", "Educational Content Management"]
+    }
+  ];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        when: "beforeChildren",
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+  };
+
   return (
     <>
-      {/* Hero Section */}
       <HeroSection
-        title="Our Innovative Products"
-        subtitle="Transformative solutions designed for the modern business landscape"
-        backgroundImage="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3"
+        title="Our Products & Solutions"
+        subtitle="Innovative tools designed to solve real business challenges and drive growth"
+        backgroundImage="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3"
+        overlayOpacity="bg-black/70"
+        blurAmount="backdrop-blur-md"
+        highlightFeature={{
+          icon: <Sparkles className="h-5 w-5 text-white" />,
+          text: "Trusted by 500+ companies worldwide",
+          position: "right"
+        }}
       />
 
-      {/* Product Tab Navigation */}
-      <section className="bg-white py-6 sticky top-16 z-30 shadow-sm">
+      {/* Main Products Section */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-custom">
-          <div className="flex flex-wrap justify-center gap-2">
-            <button 
-              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                activeTab === 'upskila' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-muted hover:bg-primary/10'
-              }`}
-              onClick={() => setActiveTab('upskila')}
-            >
-              Upskila LMS
-            </button>
-            <button 
-              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                activeTab === 'bablon' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-muted hover:bg-primary/10'
-              }`}
-              onClick={() => setActiveTab('bablon')}
-            >
-              Bablon
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Upskila LMS Section */}
-      <section 
-        id="upskila" 
-        className={`section-padding bg-white ${activeTab !== 'upskila' ? 'hidden' : ''}`}
-      >
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div className="animate-on-scroll">
-              <span className="inline-block text-secondary font-semibold mb-2">Learning Management System</span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Upskila LMS</h2>
-              <p className="text-lg mb-6 text-muted-foreground">
-                Upskila is a comprehensive learning management system designed to help organizations train, develop, and retain talent through personalized learning experiences.
-              </p>
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Customizable learning paths for targeted skill development</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Advanced analytics and reporting for tracking progress</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Interactive content creation tools and quiz builders</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Certification management and compliance tracking</p>
-                </div>
-              </div>
-              <Link to="/contact" className="cta-button">
-                Request a Demo
-              </Link>
-            </div>
-            <div className="relative animate-on-scroll">
-              <div className="rounded-lg overflow-hidden shadow-xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3" 
-                  alt="Upskila LMS Dashboard" 
-                  className="w-full h-auto"
-                />
-              </div>
-              <div className="absolute -bottom-5 -left-5 bg-white p-4 rounded-lg shadow-lg md:max-w-[200px]">
-                <div className="flex items-center justify-center mb-2">
-                  <Users className="text-primary h-8 w-8" />
-                </div>
-                <p className="font-bold text-center">500+ organizations trust Upskila</p>
-              </div>
-            </div>
-          </div>
-
           <SectionHeader
-            title="Key Features"
-            subtitle="Upskila is designed with powerful features to make learning effective and engaging"
+            title="Our Flagship Products"
+            subtitle="Powerful solutions to transform your business"
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            <FeatureCard 
-              icon={<Lightbulb className="h-6 w-6" />}
-              title="Personalized Learning Paths"
-              description="Create custom learning journeys based on roles, skill gaps, and career development goals."
-            />
-            <FeatureCard 
-              icon={<Globe className="h-6 w-6" />}
-              title="Multilingual Support"
-              description="Deliver training content in multiple languages to support global teams."
-            />
-            <FeatureCard 
-              icon={<BarChart3 className="h-6 w-6" />}
-              title="Advanced Analytics"
-              description="Track progress, completion rates, and skill development with comprehensive dashboards."
-            />
-            <FeatureCard 
-              icon={<Zap className="h-6 w-6" />}
-              title="Gamification"
-              description="Engage learners with points, badges, leaderboards, and achievement systems."
-            />
-            <FeatureCard 
-              icon={<Shield className="h-6 w-6" />}
-              title="Compliance Management"
-              description="Ensure regulatory compliance with automated tracking and certification management."
-            />
-            <FeatureCard 
-              icon={<Check className="h-6 w-6" />}
-              title="Assessment Tools"
-              description="Create quizzes, tests, and assignments to evaluate knowledge retention."
-            />
-          </div>
-
-          <div className="bg-muted rounded-2xl p-8 md:p-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div className="animate-on-scroll">
-                <h3 className="text-2xl font-bold mb-4">Success Story</h3>
-                <blockquote className="text-lg italic mb-6">
-                  "Upskila has transformed how we develop talent at our organization. We've seen a 40% increase in course completion rates and significant improvements in skill development across teams."
-                </blockquote>
-                <div className="flex items-center">
-                  <img 
-                    src="https://randomuser.me/api/portraits/men/85.jpg" 
-                    alt="Client" 
-                    className="w-12 h-12 rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Michael Roberts</p>
-                    <p className="text-sm text-muted-foreground">Learning & Development Director, Fortune 500 Company</p>
+          <div className="mt-12 space-y-16">
+            {mainProducts.map((product, index) => (
+              <motion.div 
+                key={index}
+                className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 items-center`}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={containerVariants}
+              >
+                <motion.div 
+                  className="w-full lg:w-1/2"
+                  variants={itemVariants}
+                >
+                  <div className="rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
+                    <img 
+                      src={product.image} 
+                      alt={product.title} 
+                      className="w-full h-64 object-cover"
+                    />
                   </div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 animate-on-scroll">
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-primary">40%</p>
-                  <p className="text-sm">Increase in course completion</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-primary">60%</p>
-                  <p className="text-sm">Reduction in training costs</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-primary">25%</p>
-                  <p className="text-sm">Improvement in skill proficiency</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-primary">90%</p>
-                  <p className="text-sm">User satisfaction rating</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link to="/contact" className="cta-button inline-flex items-center">
-              Get Started with Upskila <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Bablon Section */}
-      <section 
-        id="bablon" 
-        className={`section-padding bg-white ${activeTab !== 'bablon' ? 'hidden' : ''}`}
-      >
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div className="order-2 lg:order-1 relative animate-on-scroll">
-              <div className="rounded-lg overflow-hidden shadow-xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3" 
-                  alt="Bablon Dashboard" 
-                  className="w-full h-auto"
-                />
-              </div>
-              <div className="absolute -bottom-5 -right-5 bg-white p-4 rounded-lg shadow-lg md:max-w-[200px]">
-                <div className="flex items-center justify-center mb-2">
-                  <Zap className="text-secondary h-8 w-8" />
-                </div>
-                <p className="font-bold text-center">30% productivity boost with Bablon</p>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2 animate-on-scroll">
-              <span className="inline-block text-secondary font-semibold mb-2">Collaboration Platform</span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Bablon</h2>
-              <p className="text-lg mb-6 text-muted-foreground">
-                Bablon is a unified workspace that brings together team communication, project management, and document collaboration in one seamless platform.
-              </p>
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Real-time communication and messaging across teams</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Intuitive project management with visual workflows</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Document collaboration with version control</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-1" />
-                  <p>Integration with 100+ essential business tools</p>
-                </div>
-              </div>
-              <Link to="/contact" className="cta-button">
-                Request a Demo
-              </Link>
-            </div>
-          </div>
-
-          <SectionHeader
-            title="Key Features"
-            subtitle="Bablon streamlines your workflow with powerful tools for collaboration and productivity"
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            <FeatureCard 
-              icon={<Users className="h-6 w-6" />}
-              title="Team Collaboration"
-              description="Communicate seamlessly with team members through channels, direct messages, and threads."
-            />
-            <FeatureCard 
-              icon={<BarChart3 className="h-6 w-6" />}
-              title="Visual Project Management"
-              description="Manage projects with customizable boards, lists, and Gantt charts."
-            />
-            <FeatureCard 
-              icon={<Shield className="h-6 w-6" />}
-              title="Security & Permissions"
-              description="Enterprise-grade security with granular permission controls and data encryption."
-            />
-            <FeatureCard 
-              icon={<Lightbulb className="h-6 w-6" />}
-              title="Knowledge Base"
-              description="Create and organize company knowledge with searchable documentation."
-            />
-            <FeatureCard 
-              icon={<Zap className="h-6 w-6" />}
-              title="Workflow Automation"
-              description="Automate routine tasks and processes with no-code workflow builder."
-            />
-            <FeatureCard 
-              icon={<Globe className="h-6 w-6" />}
-              title="Integration Hub"
-              description="Connect with your favorite tools through our extensive integration marketplace."
-            />
-          </div>
-
-          <div className="bg-secondary/10 rounded-2xl p-8 md:p-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div className="animate-on-scroll">
-                <h3 className="text-2xl font-bold mb-4">Client Testimonial</h3>
-                <blockquote className="text-lg italic mb-6">
-                  "Bablon has revolutionized how our teams work together. The seamless integration of communication, project management, and documentation has eliminated silos and accelerated our delivery timelines."
-                </blockquote>
-                <div className="flex items-center">
-                  <img 
-                    src="https://randomuser.me/api/portraits/women/45.jpg" 
-                    alt="Client" 
-                    className="w-12 h-12 rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Jennifer Lopez</p>
-                    <p className="text-sm text-muted-foreground">Project Director, Tech Solutions Inc.</p>
+                </motion.div>
+                
+                <motion.div 
+                  className="w-full lg:w-1/2"
+                  variants={itemVariants}
+                >
+                  <h3 className="text-2xl md:text-3xl font-bold mb-4">{product.title}</h3>
+                  <p className="text-muted-foreground mb-6">{product.description}</p>
+                  
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-lg mb-3">Key Features:</h4>
+                    <ul className="space-y-2">
+                      {product.features.map((feature, fIndex) => (
+                        <li key={fIndex} className="flex items-start">
+                          <ChevronRight className="h-5 w-5 text-primary mr-2 shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 animate-on-scroll">
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-secondary">30%</p>
-                  <p className="text-sm">Increase in productivity</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-secondary">45%</p>
-                  <p className="text-sm">Reduction in email volume</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-secondary">25%</p>
-                  <p className="text-sm">Faster project delivery</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow text-center">
-                  <p className="text-3xl font-bold text-secondary">98%</p>
-                  <p className="text-sm">Team adoption rate</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link to="/contact" className="cta-button inline-flex items-center">
-              Get Started with Bablon <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+                  
+                  <Link
+                    to={product.link}
+                    className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors"
+                  >
+                    Learn more <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Plans Section */}
-      <section className="section-padding bg-muted">
+      {/* Benefits Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-muted/30 to-muted/10">
         <div className="container-custom">
           <SectionHeader
-            title="Flexible Pricing Plans"
-            subtitle="Choose the right plan for your organization's needs"
+            title="Why Choose Our Products"
+            subtitle="The benefits that set our solutions apart"
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Basic Plan */}
-            <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow animate-on-scroll">
-              <div className="text-center pb-6 border-b">
-                <h3 className="text-xl font-bold mb-2">Basic</h3>
-                <div className="flex items-baseline justify-center mb-4">
-                  <span className="text-4xl font-bold">$29</span>
-                  <span className="text-muted-foreground ml-2">/ month per user</span>
-                </div>
-                <p className="text-muted-foreground">Perfect for small teams and startups</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="rounded-full bg-primary/20 w-14 h-14 flex items-center justify-center mb-6">
+                <Zap className="h-7 w-7 text-primary" />
               </div>
-              <div className="pt-6 space-y-4">
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Up to 10 users</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Core features included</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Community support</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>1GB storage per user</p>
-                </div>
-              </div>
-              <div className="mt-8">
-                <Link to="/contact" className="w-full inline-block text-center py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
-                  Get Started
-                </Link>
-              </div>
-            </div>
+              <h3 className="text-xl font-bold mb-3">Enhanced Productivity</h3>
+              <p className="text-muted-foreground">
+                Streamline workflows and automate repetitive tasks to boost efficiency across your organization.
+              </p>
+            </motion.div>
             
-            {/* Business Plan */}
-            <div className="bg-white rounded-xl shadow-md p-6 relative border-2 border-primary hover:shadow-lg transition-shadow animate-on-scroll">
-              <div className="absolute top-0 right-6 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
-                Most Popular
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className="rounded-full bg-primary/20 w-14 h-14 flex items-center justify-center mb-6">
+                <BarChart3 className="h-7 w-7 text-primary" />
               </div>
-              <div className="text-center pb-6 border-b">
-                <h3 className="text-xl font-bold mb-2">Business</h3>
-                <div className="flex items-baseline justify-center mb-4">
-                  <span className="text-4xl font-bold">$49</span>
-                  <span className="text-muted-foreground ml-2">/ month per user</span>
-                </div>
-                <p className="text-muted-foreground">Ideal for growing organizations</p>
-              </div>
-              <div className="pt-6 space-y-4">
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Up to 50 users</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>All core and advanced features</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Priority email support</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>5GB storage per user</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Advanced analytics</p>
-                </div>
-              </div>
-              <div className="mt-8">
-                <Link to="/contact" className="w-full inline-block text-center py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                  Get Started
-                </Link>
-              </div>
-            </div>
+              <h3 className="text-xl font-bold mb-3">Data-Driven Insights</h3>
+              <p className="text-muted-foreground">
+                Make informed decisions with powerful analytics and real-time reporting capabilities.
+              </p>
+            </motion.div>
             
-            {/* Enterprise Plan */}
-            <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow animate-on-scroll">
-              <div className="text-center pb-6 border-b">
-                <h3 className="text-xl font-bold mb-2">Enterprise</h3>
-                <div className="flex items-baseline justify-center mb-4">
-                  <span className="text-4xl font-bold">Custom</span>
-                </div>
-                <p className="text-muted-foreground">For large organizations with specific needs</p>
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="rounded-full bg-primary/20 w-14 h-14 flex items-center justify-center mb-6">
+                <Users className="h-7 w-7 text-primary" />
               </div>
-              <div className="pt-6 space-y-4">
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Unlimited users</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>All features included</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>24/7 dedicated support</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Unlimited storage</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>Custom integrations</p>
-                </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-secondary mr-2 mt-0.5" />
-                  <p>SLA guarantees</p>
-                </div>
+              <h3 className="text-xl font-bold mb-3">Seamless Collaboration</h3>
+              <p className="text-muted-foreground">
+                Enable teams to work together effectively regardless of location or time zone.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <div className="rounded-full bg-primary/20 w-14 h-14 flex items-center justify-center mb-6">
+                <Shield className="h-7 w-7 text-primary" />
               </div>
-              <div className="mt-8">
-                <Link to="/contact" className="w-full inline-block text-center py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
-                  Contact Sales
-                </Link>
-              </div>
-            </div>
+              <h3 className="text-xl font-bold mb-3">Enterprise Security</h3>
+              <p className="text-muted-foreground">
+                Protect your valuable data with industry-leading security features and compliance.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Industry Solutions */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container-custom">
+          <SectionHeader
+            title="Solutions by Industry"
+            subtitle="Tailored approaches for specific business needs"
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            {industrySolutions.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="border border-muted rounded-xl p-8 hover:border-primary/20 hover:shadow-sm transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <h3 className="text-2xl font-bold mb-3">{item.industry}</h3>
+                <p className="text-muted-foreground mb-5">{item.description}</p>
+                
+                <h4 className="font-medium text-lg mb-2">Solutions:</h4>
+                <ul className="space-y-1">
+                  {item.solutions.map((solution, sIndex) => (
+                    <li key={sIndex} className="flex items-start">
+                      <ChevronRight className="h-5 w-5 text-primary mr-2 shrink-0 mt-0.5" />
+                      <span>{solution}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="mt-6">
+                  <Link
+                    to={`/solutions/${item.industry.toLowerCase()}`}
+                    className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors"
+                  >
+                    View {item.industry} Solutions <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Performance Metrics */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 to-primary/5">
+        <div className="container-custom">
+          <SectionHeader
+            title="Performance Metrics"
+            subtitle="The real impact our products have on businesses"
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <Gauge className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h3 className="text-4xl font-bold text-primary mb-2">35%</h3>
+              <p className="text-muted-foreground font-medium">Average Productivity Increase</p>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h3 className="text-4xl font-bold text-primary mb-2">50%</h3>
+              <p className="text-muted-foreground font-medium">Faster Decision Making</p>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h3 className="text-4xl font-bold text-primary mb-2">99.9%</h3>
+              <p className="text-muted-foreground font-medium">Uptime Reliability</p>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-white p-8 rounded-xl shadow-sm text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Users className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h3 className="text-4xl font-bold text-primary mb-2">92%</h3>
+              <p className="text-muted-foreground font-medium">Customer Satisfaction</p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -457,13 +352,34 @@ const Products = () => {
       <section className="py-16 bg-gradient-to-r from-primary to-primary/80 text-white">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg mb-8 text-white/90">
-              Contact our team to schedule a personalized demo and discover how our products can transform your business.
-            </p>
-            <Link to="/contact" className="cta-button-secondary text-lg">
-              Request a Demo
-            </Link>
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              Ready to Transform Your Business?
+            </motion.h2>
+            <motion.p 
+              className="text-lg mb-8 text-white/90"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Schedule a demo with our product specialists to see how our solutions can work for you.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Link to="/contact" className="bg-white text-primary px-6 py-3 rounded-md font-medium hover:bg-white/90 transition-colors">
+                Request a Demo
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>

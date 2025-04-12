@@ -20,7 +20,12 @@ interface HeroSectionProps {
   competencies?: CompetencyCard[];
   children?: React.ReactNode;
   overlayOpacity?: string;
-  blurAmount?: string; // New prop for background blur amount
+  blurAmount?: string; // Prop for background blur amount
+  highlightFeature?: {
+    icon: React.ReactNode;
+    text: string;
+    position?: 'left' | 'right' | 'bottom';
+  }; // New prop for highlighted feature
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ 
@@ -33,7 +38,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   competencies,
   children,
   overlayOpacity = 'bg-black/50',
-  blurAmount = 'backdrop-blur-sm' // Default blur amount
+  blurAmount = 'backdrop-blur-sm', // Default blur amount
+  highlightFeature
 }) => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
@@ -62,6 +68,40 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       scale: 1.05, 
       zIndex: 30,
       transition: { duration: 0.2 }
+    }
+  };
+
+  const highlightVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6,
+        delay: 0.8
+      }
+    },
+    hover: {
+      scale: 1.05,
+      transition: { 
+        duration: 0.2 
+      }
+    }
+  };
+
+  // Determine position classes for highlight feature
+  const getHighlightPositionClasses = () => {
+    if (!highlightFeature) return '';
+    
+    switch (highlightFeature.position) {
+      case 'left':
+        return 'left-8 bottom-8';
+      case 'right':
+        return 'right-8 bottom-8';
+      case 'bottom':
+        return 'bottom-8 left-1/2 -translate-x-1/2';
+      default:
+        return 'right-8 bottom-8';
     }
   };
 
@@ -197,6 +237,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </p>
             )}
             {children}
+          </motion.div>
+        )}
+
+        {/* Highlight Feature (shows only on non-home pages) */}
+        {type !== 'home' && highlightFeature && (
+          <motion.div 
+            className={`absolute ${getHighlightPositionClasses()} z-30`}
+            initial="initial"
+            animate="animate"
+            whileHover="hover"
+            variants={highlightVariants}
+          >
+            <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-lg p-4 shadow-lg flex items-center space-x-3">
+              <div className="text-white/90 rounded-full bg-primary/40 p-3">
+                {highlightFeature.icon}
+              </div>
+              <p className="text-white font-medium">{highlightFeature.text}</p>
+            </div>
           </motion.div>
         )}
       </div>

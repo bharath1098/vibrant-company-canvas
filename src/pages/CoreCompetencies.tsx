@@ -1,413 +1,342 @@
 
-import { Code, BarChart3, Users, Globe, LucideIcon, Lightbulb, Database, ServerCog, Lock, Network, PieChart } from 'lucide-react';
-import { ReactNode, useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Code, Database, Server, Cpu, Shield, BarChart3, Lightbulb, FileCode, Sparkles } from 'lucide-react';
 import HeroSection from '../components/common/HeroSection';
 import SectionHeader from '../components/common/SectionHeader';
-import { Link } from 'react-router-dom';
-
-interface CompetencyData {
-  id: string;
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  details: {
-    overview: string;
-    capabilities: string[];
-    approach: string;
-    casestudy: {
-      title: string;
-      description: string;
-      results: {
-        stat: string;
-        label: string;
-      }[];
-    };
-  };
-}
-
-const competencies: CompetencyData[] = [
-  {
-    id: 'tech-innovation',
-    icon: Lightbulb,
-    title: "Technology Innovation",
-    description: "Cutting-edge solutions built with the latest technologies to keep your business ahead of the curve.",
-    details: {
-      overview: "We focus on developing and implementing innovative technology solutions that address complex business challenges. Our approach combines emerging technologies with strategic thinking to create transformative outcomes.",
-      capabilities: [
-        "Emerging technology assessment and integration",
-        "Innovation labs and proof-of-concept development",
-        "Custom software development",
-        "API development and integration",
-        "Cloud migration and optimization",
-        "IoT solutions and smart systems"
-      ],
-      approach: "Our innovation process starts with understanding your business needs and challenges. We then explore potential solutions using emerging technologies, develop prototypes, iterate based on feedback, and implement final solutions with ongoing support and evolution.",
-      casestudy: {
-        title: "Global Retailer Transformation",
-        description: "We helped a global retailer implement an AI-powered inventory management system that integrated with IoT sensors throughout their warehouses. The solution provided real-time visibility and predictive analytics for inventory optimization.",
-        results: [
-          { stat: "35%", label: "Reduction in stockouts" },
-          { stat: "28%", label: "Decrease in excess inventory" },
-          { stat: "$4.2M", label: "Annual savings" }
-        ]
-      }
-    }
-  },
-  {
-    id: 'digital-transformation',
-    icon: Code,
-    title: "Digital Transformation",
-    description: "End-to-end digital transformation services to modernize and optimize your business operations.",
-    details: {
-      overview: "Our digital transformation services help organizations reimagine their business models and processes through the strategic application of digital technologies, creating more efficient operations and enhanced customer experiences.",
-      capabilities: [
-        "Digital strategy development",
-        "Process automation and optimization",
-        "Legacy system modernization",
-        "Data-driven decision making frameworks",
-        "Customer experience transformation",
-        "Digital workplace solutions"
-      ],
-      approach: "We follow a comprehensive approach to digital transformation, starting with assessing current systems and processes, developing a strategic roadmap, implementing solutions in phased rollouts, and measuring outcomes with continuous improvement cycles.",
-      casestudy: {
-        title: "Financial Services Modernization",
-        description: "We helped a mid-sized financial institution transform their outdated systems and manual processes into a fully digital customer experience, reducing processing times and improving customer satisfaction.",
-        results: [
-          { stat: "70%", label: "Reduction in processing time" },
-          { stat: "45%", label: "Increase in customer satisfaction" },
-          { stat: "89%", label: "Digital adoption rate" }
-        ]
-      }
-    }
-  },
-  {
-    id: 'business-solutions',
-    icon: BarChart3,
-    title: "Business Solutions",
-    description: "Tailored business solutions designed to address specific challenges and drive measurable results.",
-    details: {
-      overview: "We develop comprehensive business solutions that address operational challenges, improve efficiency, and drive growth. Our solutions combine industry best practices with cutting-edge technology to deliver measurable business outcomes.",
-      capabilities: [
-        "Business process optimization",
-        "ERP and CRM implementation",
-        "Supply chain management",
-        "Financial systems integration",
-        "Business intelligence and analytics",
-        "Compliance and risk management"
-      ],
-      approach: "Our business solutions are developed through a collaborative process that includes thorough requirements gathering, solution design, agile implementation, change management, and continuous performance monitoring and optimization.",
-      casestudy: {
-        title: "Manufacturing Process Optimization",
-        description: "We implemented an end-to-end business solution for a manufacturing company, integrating their production systems, supply chain, and customer management into a unified platform with real-time reporting and analytics.",
-        results: [
-          { stat: "32%", label: "Increase in operational efficiency" },
-          { stat: "25%", label: "Reduction in production costs" },
-          { stat: "40%", label: "Faster order-to-delivery time" }
-        ]
-      }
-    }
-  },
-  {
-    id: 'work-solutions',
-    icon: Users,
-    title: "Work Solutions",
-    description: "Collaborative tools and platforms that enhance team productivity and efficiency.",
-    details: {
-      overview: "Our work solutions focus on enhancing collaboration, productivity, and employee experience through integrated platforms and tools designed for the modern workplace, whether remote, hybrid, or in-office.",
-      capabilities: [
-        "Collaboration platforms and intranets",
-        "Project and task management systems",
-        "Knowledge management solutions",
-        "Virtual team collaboration tools",
-        "Employee engagement platforms",
-        "Workflow automation"
-      ],
-      approach: "We develop work solutions by understanding your organization's unique culture and workflows, designing user-centered experiences, implementing scalable systems, and providing training and adoption support to ensure successful rollout and sustained usage.",
-      casestudy: {
-        title: "Global Professional Services Firm",
-        description: "We developed a comprehensive work solution for a professional services firm with 5,000+ employees across 15 countries, creating a unified digital workplace that improved collaboration and knowledge sharing.",
-        results: [
-          { stat: "48%", label: "Increase in cross-team collaboration" },
-          { stat: "30%", label: "Reduction in time spent searching for information" },
-          { stat: "92%", label: "Employee satisfaction with new tools" }
-        ]
-      }
-    }
-  }
-];
-
-const subCompetencies = [
-  {
-    icon: Database,
-    title: "Data Management",
-    description: "Comprehensive data solutions from architecture to analytics."
-  },
-  {
-    icon: ServerCog,
-    title: "Cloud Services",
-    description: "Secure, scalable cloud infrastructure and migration."
-  },
-  {
-    icon: Lock,
-    title: "Cybersecurity",
-    description: "Advanced protection for your systems and data."
-  },
-  {
-    icon: Network,
-    title: "Enterprise Architecture",
-    description: "Scalable and flexible system design for growth."
-  },
-  {
-    icon: PieChart,
-    title: "Analytics & AI",
-    description: "Data-driven insights and intelligent automation."
-  },
-  {
-    icon: Globe,
-    title: "Digital Experience",
-    description: "Customer-focused digital experiences across channels."
-  }
-];
 
 const CoreCompetencies = () => {
-  const [activeCompetency, setActiveCompetency] = useState<CompetencyData>(competencies[0]);
-  
+  // Development competencies
+  const devCompetencies = [
+    {
+      icon: <FileCode className="h-10 w-10 text-primary" />,
+      title: "Full-Stack Development",
+      description: "Comprehensive development expertise spanning frontend, backend, and database technologies.",
+      technologies: ["React", "Angular", "Node.js", "Python", "Java", ".NET", "PHP"]
+    },
+    {
+      icon: <Server className="h-10 w-10 text-primary" />,
+      title: "Backend Development",
+      description: "Robust server-side solutions that power high-performance applications.",
+      technologies: ["Node.js", "Python", "Java", "C#", "GO", "Ruby"]
+    },
+    {
+      icon: <Code className="h-10 w-10 text-primary" />,
+      title: "Frontend Development",
+      description: "Creating intuitive and responsive user interfaces that deliver exceptional experiences.",
+      technologies: ["React", "Angular", "Vue.js", "Next.js", "TypeScript", "HTML/CSS"]
+    },
+    {
+      icon: <Database className="h-10 w-10 text-primary" />,
+      title: "Database & Cloud Architecture",
+      description: "Designing scalable and efficient data storage and cloud infrastructure solutions.",
+      technologies: ["AWS", "Azure", "GCP", "MongoDB", "PostgreSQL", "MySQL", "Redis"]
+    }
+  ];
+
+  // Advanced technology competencies
+  const advancedCompetencies = [
+    {
+      icon: <Sparkles className="h-10 w-10 text-primary" />,
+      title: "Artificial Intelligence",
+      description: "Implementing cutting-edge AI solutions to solve complex business challenges.",
+      services: ["Machine Learning Models", "Natural Language Processing", "Computer Vision", "Predictive Analytics"]
+    },
+    {
+      icon: <Cpu className="h-10 w-10 text-primary" />,
+      title: "IoT Solutions",
+      description: "Connecting devices and systems to create intelligent, data-driven environments.",
+      services: ["IoT Device Management", "Sensor Integration", "Real-time Analytics", "Embedded Systems"]
+    },
+    {
+      icon: <Shield className="h-10 w-10 text-primary" />,
+      title: "Cybersecurity",
+      description: "Protecting digital assets with comprehensive security measures and best practices.",
+      services: ["Penetration Testing", "Security Auditing", "Compliance Solutions", "Secure Development"]
+    },
+    {
+      icon: <BarChart3 className="h-10 w-10 text-primary" />,
+      title: "Data Analytics",
+      description: "Transforming data into actionable insights to drive business decisions.",
+      services: ["Business Intelligence", "Data Visualization", "Big Data Processing", "Statistical Analysis"]
+    }
+  ];
+
+  // Case studies
+  const caseStudies = [
+    {
+      title: "Healthcare Provider Digital Transformation",
+      description: "Implemented a comprehensive digital system for a multi-location healthcare provider, improving patient care coordination by 35%.",
+      technology: "Full-Stack Development, Cloud Architecture, Data Analytics",
+      image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2880&auto=format&fit=crop&ixlib=rb-4.0.3"
+    },
+    {
+      title: "Financial Services AI Implementation",
+      description: "Developed an AI-powered risk assessment system for a financial institution, reducing fraud cases by 42% within the first six months.",
+      technology: "Artificial Intelligence, Data Analytics, Security",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3"
+    },
+    {
+      title: "Manufacturing IoT Solution",
+      description: "Created an IoT monitoring system for a manufacturing plant, increasing production efficiency by 28% and reducing downtime by 45%.",
+      technology: "IoT, Cloud Architecture, Data Analytics",
+      image: "https://images.unsplash.com/photo-1581093583449-8255a7d46e66?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3"
+    }
+  ];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+  };
+
   return (
     <>
-      {/* Hero Section */}
       <HeroSection
-        title="Our Core Competencies"
-        subtitle="Expertise and capabilities that drive exceptional results for our clients"
-        backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3"
+        title="Core Competencies"
+        subtitle="Our expertise in advanced technologies and development practices"
+        backgroundImage="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3"
+        overlayOpacity="bg-black/60"
+        blurAmount="backdrop-blur-md"
+        highlightFeature={{
+          icon: <Lightbulb className="h-5 w-5 text-white" />,
+          text: "Industry-leading expertise across all technology domains",
+          position: "left"
+        }}
       />
 
-      {/* Competencies Overview */}
-      <section className="section-padding bg-white">
+      {/* Development Competencies */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-custom">
           <SectionHeader
-            title="Areas of Excellence"
-            subtitle="Discover our specialized expertise and how we deliver value across multiple domains"
+            title="Development Competencies"
+            subtitle="Our core strengths in software development"
           />
           
-          {/* Competency tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {competencies.map(comp => (
-              <button
-                key={comp.id}
-                className={`px-5 py-3 rounded-lg font-medium transition-colors ${
-                  activeCompetency.id === comp.id
-                    ? 'bg-primary text-white'
-                    : 'bg-muted hover:bg-primary/10'
-                }`}
-                onClick={() => setActiveCompetency(comp)}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={containerVariants}
+          >
+            {devCompetencies.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-muted/10 rounded-xl p-8 border border-muted/20 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                variants={itemVariants}
               >
-                {comp.title}
-              </button>
+                <div className="mb-6">{item.icon}</div>
+                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                <p className="text-muted-foreground mb-5">{item.description}</p>
+                
+                <div className="mt-auto">
+                  <h4 className="font-medium text-sm uppercase tracking-wider text-muted-foreground mb-2">Technologies</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {item.technologies.map((tech, tIndex) => (
+                      <span 
+                        key={tIndex}
+                        className="inline-block bg-muted/20 text-sm px-3 py-1 rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Case Studies */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-muted/20 to-transparent">
+        <div className="container-custom">
+          <SectionHeader
+            title="Case Studies"
+            subtitle="Real-world applications of our technical expertise"
+          />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
+            {caseStudies.map((study, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <div className="h-56 overflow-hidden">
+                  <img 
+                    src={study.image} 
+                    alt={study.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-3">{study.title}</h3>
+                  <p className="text-muted-foreground mb-4">{study.description}</p>
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground">Technologies Used:</h4>
+                    <p className="text-primary">{study.technology}</p>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Advanced Technology Competencies */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container-custom">
+          <SectionHeader
+            title="Advanced Technology Competencies"
+            subtitle="Cutting-edge solutions for the challenges of tomorrow"
+          />
           
-          {/* Active competency details */}
-          <div className="animate-on-scroll">
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="p-8 md:p-12">
-                <div className="flex flex-col md:flex-row gap-8">
-                  <div className="md:w-1/2">
-                    <div className="p-3 bg-primary/10 text-primary rounded-lg inline-flex mb-4">
-                      <activeCompetency.icon className="h-6 w-6" />
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold mb-4">{activeCompetency.title}</h3>
-                    <p className="text-lg mb-6 text-muted-foreground">
-                      {activeCompetency.details.overview}
-                    </p>
-                    <h4 className="font-bold text-lg mb-3">Our Capabilities</h4>
-                    <ul className="space-y-2 mb-6">
-                      {activeCompetency.details.capabilities.map((capability, index) => (
-                        <li key={index} className="flex items-start">
-                          <div className="bg-secondary text-white rounded-full p-1 mr-2 mt-0.5">
-                            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </div>
-                          {capability}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={containerVariants}
+          >
+            {advancedCompetencies.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="flex gap-6 bg-muted/10 rounded-xl p-8 border border-muted/20 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                variants={itemVariants}
+              >
+                <div className="shrink-0">{item.icon}</div>
+                <div>
+                  <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                  <p className="text-muted-foreground mb-5">{item.description}</p>
+                  
+                  <div>
+                    <h4 className="font-medium text-sm uppercase tracking-wider text-muted-foreground mb-2">Key Services</h4>
+                    <ul className="space-y-1">
+                      {item.services.map((service, sIndex) => (
+                        <li key={sIndex} className="flex items-center">
+                          <div className="mr-2 w-1.5 h-1.5 rounded-full bg-primary"></div>
+                          {service}
                         </li>
                       ))}
                     </ul>
-                    <h4 className="font-bold text-lg mb-3">Our Approach</h4>
-                    <p className="text-muted-foreground mb-6">
-                      {activeCompetency.details.approach}
-                    </p>
-                  </div>
-                  <div className="md:w-1/2">
-                    <div className="bg-muted rounded-xl p-6">
-                      <h4 className="font-bold text-lg mb-2">Case Study</h4>
-                      <h5 className="text-xl font-bold mb-3">{activeCompetency.details.casestudy.title}</h5>
-                      <p className="mb-6 text-muted-foreground">
-                        {activeCompetency.details.casestudy.description}
-                      </p>
-                      <div className="grid grid-cols-3 gap-4">
-                        {activeCompetency.details.casestudy.results.map((result, index) => (
-                          <div key={index} className="bg-white p-4 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-secondary">{result.stat}</p>
-                            <p className="text-sm">{result.label}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mt-6">
-                      <img 
-                        src={`https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3`} 
-                        alt={activeCompetency.title} 
-                        className="rounded-lg"
-                      />
-                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Competency Areas */}
-      <section className="section-padding bg-muted">
-        <div className="container-custom">
-          <SectionHeader
-            title="Additional Expertise"
-            subtitle="Complementary capabilities that enhance our core competencies"
-          />
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {subCompetencies.map((subComp, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow animate-on-scroll">
-                <div className="p-3 bg-primary/10 text-primary rounded-lg inline-flex mb-4">
-                  <subComp.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{subComp.title}</h3>
-                <p className="text-muted-foreground">{subComp.description}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Technologies Section */}
-      <section className="section-padding bg-white">
+      {/* Methodology */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 to-transparent">
         <div className="container-custom">
           <SectionHeader
-            title="Our Technology Stack"
-            subtitle="Best-in-class technologies that power our solutions"
+            title="Our Methodology"
+            subtitle="How we approach technical challenges and deliver exceptional results"
           />
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {/* Tech logos - using placeholder colored boxes */}
-            {[...Array(12)].map((_, index) => (
-              <div 
-                key={index} 
-                className="aspect-square bg-muted flex items-center justify-center rounded-lg p-6 animate-on-scroll"
+          <div className="max-w-4xl mx-auto mt-12">
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute top-0 bottom-0 left-8 w-0.5 bg-primary/20"></div>
+              
+              {/* Timeline items */}
+              <motion.div 
+                className="relative pl-20 pb-12"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
               >
-                <div className={`w-full h-full rounded-md bg-gradient-to-br ${
-                  index % 3 === 0 ? 'from-blue-200 to-blue-300' : 
-                  index % 3 === 1 ? 'from-green-200 to-green-300' : 
-                  'from-purple-200 to-purple-300'
-                } flex items-center justify-center`}>
-                  <span className="text-2xl font-bold text-white">
-                    Tech {index + 1}
-                  </span>
+                <div className="absolute top-0 left-0 w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">1</span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Methodology Section */}
-      <section className="section-padding bg-gradient-to-br from-primary/90 to-primary">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Our Methodology</h2>
-            <p className="text-lg text-white/90 max-w-3xl mx-auto">
-              A structured approach that ensures consistent delivery of high-quality solutions
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {/* Step 1 */}
-            <div className="relative animate-on-scroll">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center text-primary font-bold text-xl">
-                    1
-                  </div>
-                  <div className="h-1 bg-white/30 hidden md:block w-full ml-4"></div>
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Discover & Define</h3>
-                <p className="text-white/80">
-                  We begin by understanding your business objectives, challenges, and requirements through in-depth discovery sessions.
+                <h3 className="text-2xl font-bold mb-3">Discovery & Analysis</h3>
+                <p className="text-muted-foreground">
+                  We begin by thoroughly understanding your business objectives, challenges, and technical requirements. This phase involves stakeholder interviews, system analysis, and competitive research to establish a solid foundation for the project.
                 </p>
-              </div>
-            </div>
-            
-            {/* Step 2 */}
-            <div className="relative animate-on-scroll">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center text-primary font-bold text-xl">
-                    2
-                  </div>
-                  <div className="h-1 bg-white/30 hidden md:block w-full ml-4"></div>
+              </motion.div>
+              
+              <motion.div 
+                className="relative pl-20 pb-12"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <div className="absolute top-0 left-0 w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">2</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Design & Plan</h3>
-                <p className="text-white/80">
-                  We create detailed solution designs and project plans tailored to your specific needs and objectives.
+                <h3 className="text-2xl font-bold mb-3">Strategy & Design</h3>
+                <p className="text-muted-foreground">
+                  Based on our findings, we develop a comprehensive strategy and architectural design. This includes selecting the appropriate technology stack, defining the system architecture, and creating detailed specifications for implementation.
                 </p>
-              </div>
-            </div>
-            
-            {/* Step 3 */}
-            <div className="relative animate-on-scroll">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center text-primary font-bold text-xl">
-                    3
-                  </div>
-                  <div className="h-1 bg-white/30 hidden md:block w-full ml-4"></div>
+              </motion.div>
+              
+              <motion.div 
+                className="relative pl-20 pb-12"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <div className="absolute top-0 left-0 w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">3</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Develop & Implement</h3>
-                <p className="text-white/80">
-                  Our expert team develops and implements solutions using agile methodologies to ensure flexibility and quality.
+                <h3 className="text-2xl font-bold mb-3">Agile Development</h3>
+                <p className="text-muted-foreground">
+                  We employ agile methodologies to ensure flexibility, transparency, and continuous improvement throughout the development process. Our iterative approach allows for regular feedback and adaptation to changing requirements.
                 </p>
-              </div>
-            </div>
-            
-            {/* Step 4 */}
-            <div className="animate-on-scroll">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="flex justify-start items-center mb-4">
-                  <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center text-primary font-bold text-xl">
-                    4
-                  </div>
+              </motion.div>
+              
+              <motion.div 
+                className="relative pl-20 pb-12"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="absolute top-0 left-0 w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">4</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Deploy & Optimize</h3>
-                <p className="text-white/80">
-                  We ensure smooth deployment with comprehensive support, training, and continuous optimization.
+                <h3 className="text-2xl font-bold mb-3">Quality Assurance</h3>
+                <p className="text-muted-foreground">
+                  Rigorous testing is integrated at every stage of development to ensure the highest quality standards. We conduct automated testing, performance testing, security assessments, and user acceptance testing to deliver reliable solutions.
                 </p>
-              </div>
+              </motion.div>
+              
+              <motion.div 
+                className="relative pl-20"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <div className="absolute top-0 left-0 w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">5</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Deployment & Support</h3>
+                <p className="text-muted-foreground">
+                  We manage the deployment process with meticulous attention to detail, ensuring a smooth transition to production. Our commitment continues with comprehensive support, maintenance, and optimization services to maximize long-term value.
+                </p>
+              </motion.div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Business?</h2>
-            <p className="text-lg mb-8 text-muted-foreground">
-              Let's discuss how our expertise and capabilities can help you achieve your business objectives.
-            </p>
-            <Link to="/contact" className="cta-button text-lg">
-              Get in Touch
-            </Link>
           </div>
         </div>
       </section>
